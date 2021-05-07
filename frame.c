@@ -1,11 +1,15 @@
 #include "frame.h"
 
+#include <limits.h>
 #include <stdlib.h>
+
+#define WINNING_SCORE 10000
 
 struct SearchNode {
     struct FramePosition* position;
     int score;
 };
+
 
 struct FramePosition* new_frame() {
     // Allocate memory for a new frae structure, and
@@ -174,7 +178,7 @@ int score_frame(struct FramePosition* position, int player) {
     char winner = 0;
     char contiguous_pieces = 0;
     
-    int values[4] = {0, 1, 3, 5, 0};
+    int values[5] = {0, 1, 3, 5, 0};
     
     // Check all columns for points for both players.
     for (cidx = 0; cidx < 7; cidx++) {
@@ -360,9 +364,9 @@ int score_frame(struct FramePosition* position, int player) {
 	    }
 	}
 	if (winner == 1) {
-	    score = MAX_INT - num_moves;
+	    score = WINNING_SCORE - num_moves;
 	} else {
-	    score = -MAX_INT + num_moves;
+	    score = -WINNING_SCORE + num_moves;
 	}
     }
     return score;

@@ -29,7 +29,8 @@ void heap_insert(struct Heap* heap, struct HeapNode* new_node) {
 	new_root = malloc(sizeof(struct HeapNode*) * 2 * heap->space);
 
 	// Copy the heap array over.
-	for (int i = 0; i < heap->num_items; i++) {
+    size_t i;
+	for (i = 0; i < heap->num_items; i++) {
 	    new_root[i] = heap->root[i];
 	}
 

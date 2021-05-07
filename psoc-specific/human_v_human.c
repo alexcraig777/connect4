@@ -11,7 +11,7 @@
 */
 #include <project.h>
 #include "tft.h"
-#include "frame.h"
+#include "../frame.h"
 #include "graphics.h"
 
 #include <stdlib.h>
