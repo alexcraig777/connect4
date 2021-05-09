@@ -8,6 +8,8 @@ struct FramePosition {
 
 struct FramePosition* new_frame();
 
+struct FramePosition* deep_copy_frame(struct FramePosition* template);
+
 void free_frame(struct FramePosition* frame);
 
 int move_in_col(struct FramePosition* frame, int col);

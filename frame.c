@@ -5,14 +5,9 @@
 
 #define WINNING_SCORE 10000
 
-struct SearchNode {
-    struct FramePosition* position;
-    int score;
-};
-
 
 struct FramePosition* new_frame() {
-    // Allocate memory for a new frae structure, and
+    // Allocate memory for a new frame structure, and
     // intialize the memory to default values.
     int ridx, cidx;
     
@@ -25,10 +20,32 @@ struct FramePosition* new_frame() {
     }
     
     struct FramePosition* frame;
-    frame = malloc(sizeof(struct FramePosition*));
+    frame = malloc(sizeof(struct FramePosition));
     
     frame->cells = cells;
     frame->to_move = 1;
+    
+    return frame;
+}
+
+struct FramePosition* deep_copy_frame(struct FramePosition* template) {
+    // Allocate memory for a new frame structure, and
+    // copy over all the data from the old frame.
+    int ridx, cidx;
+    
+    char **cells = malloc(7 * sizeof(char*));
+    for (cidx = 0; cidx < 7; cidx++) {
+        cells[cidx] = malloc(6 * sizeof(char));
+        for (ridx = 0; ridx < 6; ridx++) {
+            cells[cidx][ridx] = template->cells[cidx][ridx];
+        }
+    }
+    
+    struct FramePosition* frame;
+    frame = malloc(sizeof(struct FramePosition));
+    
+    frame->cells = cells;
+    frame->to_move = template->to_move;
     
     return frame;
 }
