@@ -11,7 +11,8 @@ int score;
 
 CY_ISR( input_handler ) {
     int success;
-    
+
+    success = 0;
     if (RST_BUTTON_Read()) {
         // Start over.
         free_frame(frame);
@@ -75,5 +76,3 @@ int main()
     }
 
 }
-
-/* [] END OF FILE */
