@@ -69,6 +69,10 @@ void expand_node(struct GameNode* node) {
 
 	    // Add the child node to the current node's children array.
 	    node->children[cidx] = child_node;
+	} else {
+	    // We need to free the child_position frame that we
+	    // just created!
+	    free_frame(child_position);
 	}
     }
 
