@@ -350,9 +350,9 @@ int score_frame(struct FramePosition* position, int player) {
             // Otherwise, if player 1 has no pieces in this block, count
             // player 2's score.
             } else if ((position->cells[base_cidx][base_ridx] != 1) &&
-            (position->cells[base_cidx + 1][base_ridx + 1] != 1) &&
-            (position->cells[base_cidx + 2][base_ridx + 2] != 1) &&
-            (position->cells[base_cidx + 3][base_ridx + 3] != 1)) {
+            (position->cells[base_cidx + 1][base_ridx - 1] != 1) &&
+            (position->cells[base_cidx + 2][base_ridx - 2] != 1) &&
+            (position->cells[base_cidx + 3][base_ridx - 3] != 1)) {
                 contiguous_pieces = ((position->cells[base_cidx][base_ridx] == 2) +
                                      (position->cells[base_cidx + 1][base_ridx - 1] == 2) +
                                      (position->cells[base_cidx + 2][base_ridx - 2] == 2) +
