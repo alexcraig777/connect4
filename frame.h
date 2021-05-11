@@ -16,6 +16,8 @@ int move_in_col(struct FramePosition* frame, int col);
 
 void display_frame(struct FramePosition* position);
 
+int check_full(struct FramePosition* position);
+
 int check_winner(struct FramePosition* position);
 
 int score_frame(struct FramePosition* position, int player);
