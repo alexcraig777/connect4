@@ -72,6 +72,8 @@ void expand_node(struct GameNode* node) {
 	} else {
 	    // We need to free the child_position frame that we
 	    // just created!
+	    // This was causing some memory leaks!
+	    // Thank you Valgrind for helping me find it!
 	    free_frame(child_position);
 	}
     }

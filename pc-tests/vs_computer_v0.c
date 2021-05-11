@@ -43,7 +43,7 @@ int main() {
     int user_input_col;
     
     int i, j;
-    for (i = 0; i < 100; i++) {
+    for (i = 0; i < 1000; i++) {
 	root = new_game_node(NULL, frame);
 
 	for (j = 0; j < 100; j++) {
@@ -55,17 +55,11 @@ int main() {
 	    // Check if the leaf is the end of the game.
 	    winner = check_winner(leaf->position);
 	    if (winner != 0) {
-		printf("Looks like somebody's got a forced win!");
+		printf("Looks like somebody's got a forced win!\n");
 		break;
 	    }
 	    
-	    //printf("Leaf:");
-	    //display_node(leaf);
-	    
 	    expand_node(leaf);
-	
-	    //printf("Root again:");
-	    //display_node(root);
 	}
 
 	// Create a copy of the current frame.
@@ -76,6 +70,10 @@ int main() {
 
 	// Free the previous root game node (and with it the entire tree).
 	free_game_node(root);
+
+	// Display the new position.
+	printf("Computer made a move. Now the position is\n");
+	display_frame(frame);
 
 	// Now check to see if the computer just won or filled up the board.
 	// In either case we need gracefully to stop and break out of
@@ -88,10 +86,7 @@ int main() {
 	    printf("Game over. The board is full.\n");
 	    break;
 	}
-
-	printf("Computer made a move. Now the position is\n");
-	display_frame(frame);
-
+	
 	// Get the user input and make their move.
 	printf("\nYour move:\t");
 	scanf("%d", &user_input_col);
