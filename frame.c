@@ -88,8 +88,29 @@ int move_in_col(struct FramePosition* frame, int col) {
     return ret;
 }
 
+int check_full(struct FramePosition* position) {
+    // Check if the board is completely full. This does not check
+    // if anyone has won the game.
+    int cidx;
+    int rtn;
+
+    rtn = 1;
+    for (cidx = 0; cidx < 7; cidx++) {
+	if (position->cells[cidx][5] == 0) {
+	    // There is an empty cell. The game is not over.
+	    // We can immediately return 0.
+	    rtn = 0;
+	    break;
+	}
+    }
+    // If we get here without ever finding an empty cell, then the
+    // board is full and we should return 1.
+    return rtn;
+}
+
 int check_winner(struct FramePosition* position) {
-    // Check if the game is 
+    // Check if either player has won. This does not check if the
+    // board is full (i.e., the game is a tie).
     int cidx, ridx;
     int base_ridx, base_cidx;
     char winner;

@@ -81,7 +81,8 @@ void update_expected_payoff(struct GameNode* node) {
     // your children's. Then make your parent update also.
     
     int child_payoff;
-    // optimal_payoff should start out as un-optimal as possible.
+    // optimal_payoff should start out as un-optimal as possible
+    // (i.e., assuming that we lose immediately).
     if (node->position->to_move == 1) {
 	// The worst possible scenario would be -WINNING_SCORE.
 	node->expected_payoff = -WINNING_SCORE;
