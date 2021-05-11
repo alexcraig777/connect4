@@ -1,5 +1,5 @@
-#include "frame.h"
-#include "game_node.h"
+#include "../frame.h"
+#include "../game_node.h"
 
 #include <stdio.h>
 
@@ -42,8 +42,8 @@ int main() {
 	    
 	    leaf = find_most_promising_leaf_descendant(root);
 	    
-	    printf("Leaf:");
-	    display_node(leaf);
+	    //printf("Leaf:");
+	    //display_node(leaf);
 	    
 	    expand_node(leaf);
 	
