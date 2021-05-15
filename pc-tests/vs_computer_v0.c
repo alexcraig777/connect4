@@ -1,9 +1,10 @@
 #include "../frame.h"
+#include "../frame_ops.h"
 #include "../game_node.h"
 
 #include <stdio.h>
 
-#define MAX_EXPANSIONS 1000
+#define MAX_EXPANSIONS 40
 
 void display_frame(struct FramePosition* position) {
     int cidx, ridx;
