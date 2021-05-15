@@ -42,8 +42,8 @@ void display_frame(struct FramePosition* position) {
             write8_a0(0x2C);                    // Memory Write
             
             for (i = 0; i < 625; i++) {
-                write8_a1(colors[(int) position->cells[cidx][ridx]] >> 8);
-                write8_a1(colors[(int) position->cells[cidx][ridx]] & 0xff);
+                write8_a1(colors[get_at_col_row(position, cidx, ridx)] >> 8);
+                write8_a1(colors[get_at_col_row(position, cidx, ridx)] & 0xff);
             }
             write8_a0(0x00);                    // NOP
         }
