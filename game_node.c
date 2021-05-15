@@ -89,7 +89,7 @@ void update_expected_payoff(struct GameNode* node) {
     int child_payoff;
     // optimal_payoff should start out as un-optimal as possible
     // (i.e., assuming that we lose immediately).
-    if (node->position->to_move == 1) {
+    if (get_to_move(node->position) == 1) {
 	// The worst possible scenario would be -WINNING_SCORE.
 	node->expected_payoff = -WINNING_SCORE;
     } else {
@@ -101,9 +101,9 @@ void update_expected_payoff(struct GameNode* node) {
 	if (node->children[child_idx] != NULL) {
 	    child_payoff = node->children[child_idx]->expected_payoff;
 	    // Check if child's payoff is better than we've seen so far.
-	    if (((node->position->to_move == 1) &&
+	    if (((get_to_move(node->position) == 1) &&
 		 (child_payoff >= node->expected_payoff)) ||
-		((node->position->to_move == 2) &&
+		((get_to_move(node->position) == 2) &&
 		 (child_payoff <= node->expected_payoff))) {
 		// This should be the new optimal_payoff, and this child
 		// is the new most promising.

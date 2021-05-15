@@ -5,6 +5,10 @@
 
 #define WINNING_SCORE 10000
 
+struct FramePosition {
+    char to_move;
+    char **cells;
+};
 
 struct FramePosition* new_frame() {
     // Allocate memory for a new frame structure, and
@@ -63,6 +67,14 @@ void free_frame(struct FramePosition* frame) {
     free(frame->cells);
     
     free(frame);
+}
+
+int get_to_move(struct FramePosition* frame) {
+    return frame->to_move;
+}
+
+int get_at_col_row(struct FramePosition* frame, int col, int row) {
+    return frame->cells[col][row];
 }
 
 int move_in_col(struct FramePosition* frame, int col) {

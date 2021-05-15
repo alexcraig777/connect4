@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 
+#define MAX_EXPANSIONS 1000
+
 void display_frame(struct FramePosition* position) {
     int cidx, ridx;
     char* display_symbols[3] = {".", "x", "o"};
@@ -10,7 +12,7 @@ void display_frame(struct FramePosition* position) {
     printf("\n");
     for (ridx = 5; ridx >= 0; ridx--) {
 	for (cidx = 0; cidx < 7; cidx++) {
-	    printf("%s ", display_symbols[(int) position->cells[cidx][ridx]]);
+	    printf("%s ", display_symbols[get_at_col_row(position, cidx, ridx)]);
 	}
 	printf("\n");
     }
@@ -28,7 +30,7 @@ void display_winner(int winner) {
     if (winner == 1) {
 	printf("Computer won!\nBetter luck next time!\n");
     } else  if (winner == 2) {
-	printf("Congratulations!\n You beat the computer!\n");
+	printf("Congratulations!\nYou beat the computer!\n");
     }	
 }
 
@@ -46,7 +48,7 @@ int main() {
     for (i = 0; i < 1000; i++) {
 	root = new_game_node(NULL, frame);
 
-	for (j = 0; j < 100; j++) {
+	for (j = 0; j < MAX_EXPANSIONS; j++) {
 	    //printf("Root:");
 	    //display_node(root);
 	    
