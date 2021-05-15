@@ -1,18 +1,7 @@
-#ifndef FRAME_H
-#define FRAME_H
+#ifndef FRAME_OPS_H
+#define FRAME_OPS_H
 
-struct FramePosition* new_frame();
-
-struct FramePosition* deep_copy_frame(struct FramePosition* template);
-
-void free_frame(struct FramePosition* frame);
-
-
-int get_to_move(struct FramePosition* frame);
-
-int get_at_col_row(struct FramePosition* frame, int col, int row);
-
-int move_in_col(struct FramePosition* frame, int col);
+struct FramePosition;
 
 void display_frame(struct FramePosition* position);
 

@@ -1,9 +1,15 @@
+#include "frame_ops.h"
 #include "frame.h"
 
 #include <limits.h>
 #include <stdlib.h>
 
 #define WINNING_SCORE 10000
+
+// This file defines all the operations on frame structures
+// that do not directly depend on the internals of the structure.
+// Separating them out will allow us more easily to make the
+// structure more space-efficient.
 
 int check_full(struct FramePosition* position) {
     // Check if the board is completely full. This does not check
@@ -13,12 +19,12 @@ int check_full(struct FramePosition* position) {
 
     rtn = 1;
     for (cidx = 0; cidx < 7; cidx++) {
-	if (get_at_col_row(position, cidx, 5) == 0) {
-	    // There is an empty cell. The game is not over.
-	    // We can immediately return 0.
-	    rtn = 0;
-	    break;
-	}
+        if (get_at_col_row(position, cidx, 5) == 0) {
+            // There is an empty cell. The game is not over.
+            // We can immediately return 0.
+            rtn = 0;
+            break;
+        }
     }
     // If we get here without ever finding an empty cell, then the
     // board is full and we should return 1.
@@ -59,16 +65,16 @@ int check_winner(struct FramePosition* position) {
     if (winner == 0) {
         for (ridx = 0; ridx < 6; ridx++) {
             for (base_cidx = 0; base_cidx < 4; base_cidx++) {
-                if ((position->cells[base_cidx][ridx] == 1) &&
-                (position->cells[base_cidx + 1][ridx] == 1) &&
-                (position->cells[base_cidx + 2][ridx] == 1) &&
-                (position->cells[base_cidx + 3][ridx] == 1)) {
+                if ((get_at_col_row(position, base_cidx, ridx) == 1) &&
+                (get_at_col_row(position, base_cidx + 1, ridx) == 1) &&
+                (get_at_col_row(position, base_cidx + 2, ridx) == 1) &&
+                (get_at_col_row(position, base_cidx + 3, ridx) == 1)) {
                     winner = 1;
                     break;
-                } else if ((position->cells[base_cidx][ridx] == 2) &&
-                (position->cells[base_cidx + 1][ridx] == 2) &&
-                (position->cells[base_cidx + 2][ridx] == 2) &&
-                (position->cells[base_cidx + 3][ridx] == 2)) {
+                } else if ((get_at_col_row(position, base_cidx, ridx) == 2) &&
+                (get_at_col_row(position, base_cidx + 1, ridx) == 2) &&
+                (get_at_col_row(position, base_cidx + 2, ridx) == 2) &&
+                (get_at_col_row(position, base_cidx + 3, ridx) == 2)) {
                     winner = 2;
                     break;
                 }
@@ -83,16 +89,16 @@ int check_winner(struct FramePosition* position) {
     if (winner == 0) {
         for (base_cidx = 0; base_cidx < 4; base_cidx++) {
             for (base_ridx = 0; base_ridx < 3; base_ridx++) {
-                if ((position->cells[base_cidx][base_ridx] == 1) &&
-                (position->cells[base_cidx + 1][base_ridx + 1] == 1) &&
-                (position->cells[base_cidx + 2][base_ridx + 2] == 1) &&
-                (position->cells[base_cidx + 3][base_ridx + 3] == 1)) {
+                if ((get_at_col_row(position, base_cidx, base_ridx) == 1) &&
+                (get_at_col_row(position, base_cidx + 1, base_ridx + 1) == 1) &&
+                (get_at_col_row(position, base_cidx + 2, base_ridx + 2) == 1) &&
+                (get_at_col_row(position, base_cidx + 3, base_ridx + 3) == 1)) {
                     winner = 1;
                     break;
-                } else if ((position->cells[base_cidx][base_ridx] == 2) &&
-                (position->cells[base_cidx + 1][base_ridx + 1] == 2) &&
-                (position->cells[base_cidx + 2][base_ridx + 2] == 2) &&
-                (position->cells[base_cidx + 3][base_ridx + 3] == 2)) {
+                } else if ((get_at_col_row(position, base_cidx, base_ridx) == 2) &&
+                (get_at_col_row(position, base_cidx + 1, base_ridx + 1) == 2) &&
+                (get_at_col_row(position, base_cidx + 2, base_ridx + 2) == 2) &&
+                (get_at_col_row(position, base_cidx + 3, base_ridx + 3) == 2)) {
                     winner = 2;
                     break;
                 }
@@ -104,16 +110,16 @@ int check_winner(struct FramePosition* position) {
     if (winner == 0) {
         for (base_cidx = 0; base_cidx < 4; base_cidx++) {
             for (base_ridx = 3; base_ridx < 6; base_ridx++) {
-                if ((position->cells[base_cidx][base_ridx] == 1) &&
-                (position->cells[base_cidx + 1][base_ridx - 1] == 1) &&
-                (position->cells[base_cidx + 2][base_ridx - 2] == 1) &&
-                (position->cells[base_cidx + 3][base_ridx - 3] == 1)) {
+                if ((get_at_col_row(position, base_cidx, base_ridx) == 1) &&
+                (get_at_col_row(position, base_cidx + 1, base_ridx - 1) == 1) &&
+                (get_at_col_row(position, base_cidx + 2, base_ridx - 2) == 1) &&
+                (get_at_col_row(position, base_cidx + 3, base_ridx - 3) == 1)) {
                     winner = 1;
                     break;
-                } else if ((position->cells[base_cidx][base_ridx] == 2) &&
-                (position->cells[base_cidx + 1][base_ridx - 1] == 2) &&
-                (position->cells[base_cidx + 2][base_ridx - 2] == 2) &&
-                (position->cells[base_cidx + 3][base_ridx - 3] == 2)) {
+                } else if ((get_at_col_row(position, base_cidx, base_ridx) == 2) &&
+                (get_at_col_row(position, base_cidx + 1, base_ridx - 1) == 2) &&
+                (get_at_col_row(position, base_cidx + 2, base_ridx - 2) == 2) &&
+                (get_at_col_row(position, base_cidx + 3, base_ridx - 3) == 2)) {
                     winner = 2;
                     break;
                 }
@@ -140,14 +146,14 @@ int score_frame(struct FramePosition* position, int player) {
         for (base_ridx = 0; base_ridx < 3; base_ridx++) {
             // If player 2 has no pieces in this chunk, then count how
             // many pieces player 1 has in this chunk.
-            if ((position->cells[cidx][base_ridx] != 2) &&
-            (position->cells[cidx][base_ridx + 1] != 2) &&
-            (position->cells[cidx][base_ridx + 2] != 2) &&
-            (position->cells[cidx][base_ridx + 3] != 2)) {
-                contiguous_pieces = ((position->cells[cidx][base_ridx] == 1) +
-                                     (position->cells[cidx][base_ridx + 1] == 1) +
-                                     (position->cells[cidx][base_ridx + 2] == 1) +
-                                     (position->cells[cidx][base_ridx + 3] == 1));
+            if ((get_at_col_row(position, cidx, base_ridx) != 2) &&
+            (get_at_col_row(position, cidx, base_ridx + 1) != 2) &&
+            (get_at_col_row(position, cidx, base_ridx + 2) != 2) &&
+            (get_at_col_row(position, cidx, base_ridx + 3) != 2)) {
+                contiguous_pieces = ((get_at_col_row(position, cidx, base_ridx) == 1) +
+                                     (get_at_col_row(position, cidx, base_ridx + 1) == 1) +
+                                     (get_at_col_row(position, cidx, base_ridx + 2) == 1) +
+                                     (get_at_col_row(position, cidx, base_ridx + 3) == 1));
                 if (player == 1) {
                     score += values[(int) contiguous_pieces];
                 } else {
@@ -158,14 +164,14 @@ int score_frame(struct FramePosition* position, int player) {
 		}
             // Otherise, if player 1 has no pieces in this chunk,
             // then count how many pieces player 2 has in this chunk.
-            } else if ((position->cells[cidx][base_ridx] != 1) &&
-            (position->cells[cidx][base_ridx + 1] != 1) &&
-            (position->cells[cidx][base_ridx + 2] != 1) &&
-            (position->cells[cidx][base_ridx + 3] != 1)) {
-                contiguous_pieces = ((position->cells[cidx][base_ridx] == 2) +
-                                     (position->cells[cidx][base_ridx + 1] == 2) +
-                                     (position->cells[cidx][base_ridx + 2] == 2) +
-                                     (position->cells[cidx][base_ridx + 3] == 2));
+            } else if ((get_at_col_row(position, cidx, base_ridx) != 1) &&
+            (get_at_col_row(position, cidx, base_ridx + 1) != 1) &&
+            (get_at_col_row(position, cidx, base_ridx + 2) != 1) &&
+            (get_at_col_row(position, cidx, base_ridx + 3) != 1)) {
+                contiguous_pieces = ((get_at_col_row(position, cidx, base_ridx) == 2) +
+                                     (get_at_col_row(position, cidx, base_ridx + 1) == 2) +
+                                     (get_at_col_row(position, cidx, base_ridx + 2) == 2) +
+                                     (get_at_col_row(position, cidx, base_ridx + 3) == 2));
                 if (player == 2) {
                     score += values[(int) contiguous_pieces];
                 } else {
@@ -183,14 +189,14 @@ int score_frame(struct FramePosition* position, int player) {
         for (base_cidx = 0; base_cidx < 4; base_cidx++) {
             // If player 2 has no pieces in this chunk, then count how
             // many pieces player 1 has in this chunk.
-            if ((position->cells[base_cidx][ridx] != 2) &&
-            (position->cells[base_cidx + 1][ridx] != 2) &&
-            (position->cells[base_cidx + 2][ridx] != 2) &&
-            (position->cells[base_cidx + 3][ridx] != 2)) {
-                contiguous_pieces = ((position->cells[base_cidx][ridx] == 1) +
-                                     (position->cells[base_cidx + 1][ridx] == 1) +
-                                     (position->cells[base_cidx + 2][ridx] == 1) +
-                                     (position->cells[base_cidx + 3][ridx] == 1));
+            if ((get_at_col_row(position, base_cidx, ridx) != 2) &&
+            (get_at_col_row(position, base_cidx + 1, ridx) != 2) &&
+            (get_at_col_row(position, base_cidx + 2, ridx) != 2) &&
+            (get_at_col_row(position, base_cidx + 3, ridx) != 2)) {
+                contiguous_pieces = ((get_at_col_row(position, base_cidx, ridx) == 1) +
+                                     (get_at_col_row(position, base_cidx + 1, ridx) == 1) +
+                                     (get_at_col_row(position, base_cidx + 2, ridx) == 1) +
+                                     (get_at_col_row(position, base_cidx + 3, ridx) == 1));
                 if (player == 1) {
                     score += values[(int) contiguous_pieces];
                 } else {
@@ -201,14 +207,14 @@ int score_frame(struct FramePosition* position, int player) {
 		}
             // Otherise, if player 1 has no pieces in this chunk,
             // then count how many pieces player 2 has in this chunk.
-            } else if ((position->cells[base_cidx][ridx] != 1) &&
-            (position->cells[base_cidx + 1][ridx] != 1) &&
-            (position->cells[base_cidx + 2][ridx] != 1) &&
-            (position->cells[base_cidx + 3][ridx] != 1)) {
-                contiguous_pieces = ((position->cells[base_cidx][ridx] == 2) +
-                                     (position->cells[base_cidx + 1][ridx] == 2) +
-                                     (position->cells[base_cidx + 2][ridx] == 2) +
-                                     (position->cells[base_cidx + 3][ridx] == 2));
+            } else if ((get_at_col_row(position, base_cidx, ridx) != 1) &&
+            (get_at_col_row(position, base_cidx + 1, ridx) != 1) &&
+            (get_at_col_row(position, base_cidx + 2, ridx) != 1) &&
+            (get_at_col_row(position, base_cidx + 3, ridx) != 1)) {
+                contiguous_pieces = ((get_at_col_row(position, base_cidx, ridx) == 2) +
+                                     (get_at_col_row(position, base_cidx + 1, ridx) == 2) +
+                                     (get_at_col_row(position, base_cidx + 2, ridx) == 2) +
+                                     (get_at_col_row(position, base_cidx + 3, ridx) == 2));
                 if (player == 2) {
                     score += values[(int) contiguous_pieces];
                 } else {
@@ -226,14 +232,14 @@ int score_frame(struct FramePosition* position, int player) {
         for (base_ridx = 0; base_ridx < 3; base_ridx++) {
             // If player 2 has no pieces in this block, count player 1's
             // score.
-            if ((position->cells[base_cidx][base_ridx] != 2) &&
-            (position->cells[base_cidx + 1][base_ridx + 1] != 2) &&
-            (position->cells[base_cidx + 2][base_ridx + 2] != 2) &&
-            (position->cells[base_cidx + 3][base_ridx + 3] != 2)) {
-                contiguous_pieces = ((position->cells[base_cidx][base_ridx] == 1) +
-                                     (position->cells[base_cidx + 1][base_ridx + 1] == 1) +
-                                     (position->cells[base_cidx + 2][base_ridx + 2] == 1) +
-                                     (position->cells[base_cidx + 3][base_ridx + 3] == 1));
+            if ((get_at_col_row(position, base_cidx, base_ridx) != 2) &&
+            (get_at_col_row(position, base_cidx + 1, base_ridx + 1) != 2) &&
+            (get_at_col_row(position, base_cidx + 2, base_ridx + 2) != 2) &&
+            (get_at_col_row(position, base_cidx + 3, base_ridx + 3) != 2)) {
+                contiguous_pieces = ((get_at_col_row(position, base_cidx, base_ridx) == 1) +
+                                     (get_at_col_row(position, base_cidx + 1, base_ridx + 1) == 1) +
+                                     (get_at_col_row(position, base_cidx + 2, base_ridx + 2) == 1) +
+                                     (get_at_col_row(position, base_cidx + 3, base_ridx + 3) == 1));
                 if (player == 1) {
                     score += values[(int) contiguous_pieces];
                 } else {
@@ -244,14 +250,14 @@ int score_frame(struct FramePosition* position, int player) {
 		}
             // Otherwise, if player 1 has no pieces in this block, count
             // player 2's score.
-            } else if ((position->cells[base_cidx][base_ridx] != 1) &&
-            (position->cells[base_cidx + 1][base_ridx + 1] != 1) &&
-            (position->cells[base_cidx + 2][base_ridx + 2] != 1) &&
-            (position->cells[base_cidx + 3][base_ridx + 3] != 1)) {
-                contiguous_pieces = ((position->cells[base_cidx][base_ridx] == 2) +
-                                     (position->cells[base_cidx + 1][base_ridx + 1] == 2) +
-                                     (position->cells[base_cidx + 2][base_ridx + 2] == 2) +
-                                     (position->cells[base_cidx + 3][base_ridx + 3] == 2));
+            } else if ((get_at_col_row(position, base_cidx, base_ridx) != 1) &&
+            (get_at_col_row(position, base_cidx + 1, base_ridx + 1) != 1) &&
+            (get_at_col_row(position, base_cidx + 2, base_ridx + 2) != 1) &&
+            (get_at_col_row(position, base_cidx + 3, base_ridx + 3) != 1)) {
+                contiguous_pieces = ((get_at_col_row(position, base_cidx, base_ridx) == 2) +
+                                     (get_at_col_row(position, base_cidx + 1, base_ridx + 1) == 2) +
+                                     (get_at_col_row(position, base_cidx + 2, base_ridx + 2) == 2) +
+                                     (get_at_col_row(position, base_cidx + 3, base_ridx + 3) == 2));
                 if (player == 2) {
                     score += values[(int) contiguous_pieces];
                 } else {
@@ -269,14 +275,14 @@ int score_frame(struct FramePosition* position, int player) {
         for (base_ridx = 3; base_ridx < 6; base_ridx++) {
             // If player 2 has no pieces in this block, count player 1's
             // score.
-            if ((position->cells[base_cidx][base_ridx] != 2) &&
-            (position->cells[base_cidx + 1][base_ridx - 1] != 2) &&
-            (position->cells[base_cidx + 2][base_ridx - 2] != 2) &&
-            (position->cells[base_cidx + 3][base_ridx - 3] != 2)) {
-                contiguous_pieces = ((position->cells[base_cidx][base_ridx] == 1) +
-                                     (position->cells[base_cidx + 1][base_ridx - 1] == 1) +
-                                     (position->cells[base_cidx + 2][base_ridx - 2] == 1) +
-                                     (position->cells[base_cidx + 3][base_ridx - 3] == 1));
+            if ((get_at_col_row(position, base_cidx, base_ridx) != 2) &&
+            (get_at_col_row(position, base_cidx + 1, base_ridx - 1) != 2) &&
+            (get_at_col_row(position, base_cidx + 2, base_ridx - 2) != 2) &&
+            (get_at_col_row(position, base_cidx + 3, base_ridx - 3) != 2)) {
+                contiguous_pieces = ((get_at_col_row(position, base_cidx, base_ridx) == 1) +
+                                     (get_at_col_row(position, base_cidx + 1, base_ridx - 1) == 1) +
+                                     (get_at_col_row(position, base_cidx + 2, base_ridx - 2) == 1) +
+                                     (get_at_col_row(position, base_cidx + 3, base_ridx - 3) == 1));
                 if (player == 1) {
                     score += values[(int) contiguous_pieces];
                 } else {
@@ -287,14 +293,14 @@ int score_frame(struct FramePosition* position, int player) {
 		}
             // Otherwise, if player 1 has no pieces in this block, count
             // player 2's score.
-            } else if ((position->cells[base_cidx][base_ridx] != 1) &&
-            (position->cells[base_cidx + 1][base_ridx - 1] != 1) &&
-            (position->cells[base_cidx + 2][base_ridx - 2] != 1) &&
-            (position->cells[base_cidx + 3][base_ridx - 3] != 1)) {
-                contiguous_pieces = ((position->cells[base_cidx][base_ridx] == 2) +
-                                     (position->cells[base_cidx + 1][base_ridx - 1] == 2) +
-                                     (position->cells[base_cidx + 2][base_ridx - 2] == 2) +
-                                     (position->cells[base_cidx + 3][base_ridx - 3] == 2));
+            } else if ((get_at_col_row(position, base_cidx, base_ridx) != 1) &&
+            (get_at_col_row(position, base_cidx + 1, base_ridx - 1) != 1) &&
+            (get_at_col_row(position, base_cidx + 2, base_ridx - 2) != 1) &&
+            (get_at_col_row(position, base_cidx + 3, base_ridx - 3) != 1)) {
+                contiguous_pieces = ((get_at_col_row(position, base_cidx, base_ridx) == 2) +
+                                     (get_at_col_row(position, base_cidx + 1, base_ridx - 1) == 2) +
+                                     (get_at_col_row(position, base_cidx + 2, base_ridx - 2) == 2) +
+                                     (get_at_col_row(position, base_cidx + 3, base_ridx - 3) == 2));
                 if (player == 2) {
                     score += values[(int) contiguous_pieces];
                 } else {
@@ -313,7 +319,7 @@ int score_frame(struct FramePosition* position, int player) {
 	int num_moves = 0;
 	for (cidx = 0; cidx < 7; cidx++) {
 	    for (ridx = 0; ridx < 6; ridx++) {
-		if (position->cells[cidx][ridx] != 0) {
+		if (get_at_col_row(position, cidx, ridx) != 0) {
 		    num_moves++;
 		}
 	    }

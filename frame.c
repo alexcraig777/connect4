@@ -77,7 +77,7 @@ int get_to_move(struct FramePosition* frame) {
 }
 
 int get_at_col_row(struct FramePosition* frame, int col, int row) {
-    return frame->cells[col][row];
+    return (int) frame->cells[col][row];
 }
 
 int move_in_col(struct FramePosition* frame, int col) {

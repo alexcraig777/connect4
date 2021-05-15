@@ -3,11 +3,12 @@
 #include "graphics.h"
 
 #include "../frame.h"
+#include "../frame_ops.h"
 #include "../game_node.h"
 
 #include <stdlib.h>
 
-#define MAX_EXPANSIONS 100
+#define MAX_EXPANSIONS 40
 
 struct FramePosition* frame;
 char overall_winner;
