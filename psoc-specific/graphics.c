@@ -3,7 +3,7 @@
 
 #include "graphics.h"
 
-#include "../frame.h"
+#include "../small_frame.h"
 #include "tft.h"
 
 int color0 = 0x0000;
