@@ -1,5 +1,5 @@
 #include "frame_ops.h"
-#include "frame.h"
+#include "small_frame.h"
 
 #include <limits.h>
 #include <stdlib.h>

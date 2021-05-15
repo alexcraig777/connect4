@@ -1,6 +1,6 @@
 #include "game_node.h"
 
-#include "frame.h"
+#include "small_frame.h"
 #include "frame_ops.h"
 
 #include <stdlib.h>
