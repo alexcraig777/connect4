@@ -1,5 +1,7 @@
 #include "small_frame.h"
 
+#include "nine_byte.h"
+
 #include <limits.h>
 #include <stdlib.h>
 
@@ -12,7 +14,7 @@
 
 struct FramePosition {
     char to_move;
-    __uint128_t n;
+    struct NineByte position_rep;
 };
 
 struct FramePosition* new_frame() {
@@ -22,7 +24,7 @@ struct FramePosition* new_frame() {
     frame = malloc(sizeof(struct FramePosition));
     
     frame->to_move = 1;
-    frame->n = 0;
+    fill_nine_byte(&(frame->position_rep), 0);
     
     return frame;
 }
@@ -34,7 +36,7 @@ struct FramePosition* deep_copy_frame(struct FramePosition* template) {
     frame = malloc(sizeof(struct FramePosition));
     
     frame->to_move = template->to_move;
-    frame->n = template->n;
+    copy_nine_byte(&(frame->position_rep), &(template->position_rep));
     
     return frame;
 }
@@ -51,17 +53,11 @@ int get_to_move(struct FramePosition* frame) {
 }
 
 int get_at_col_row(struct FramePosition* frame, int col, int row) {
-    int idx, i;
-    __uint128_t m;
+    int idx;
     
     idx = 7*col + row;
-    m = frame->n;
-    
-    for (i = 0; i < idx; i++) {
-	m = m / 3;
-    }
-    
-    return m % 3;
+
+    return get_trinary_digit(frame->position_rep, idx);
 }
 
 int move_in_col(struct FramePosition* frame, int col) {
@@ -72,8 +68,9 @@ int move_in_col(struct FramePosition* frame, int col) {
     int rtn;
     int ridx;
     int idx, i;
-    __uint128_t addend;
 
+    struct NineByte addend;
+    
     rtn = -1;
     
     // Find the lowest cell in the column that is not occuppied.
@@ -82,12 +79,12 @@ int move_in_col(struct FramePosition* frame, int col) {
 	    // This space is empty; move here and return.
 	    idx = 7*col + ridx;
 
-	    addend = (__uint128_t) frame->to_move;
+	    fill_nine_byte(&addend, frame->to_move);
 	    for (i = 0; i < idx; i++) {
-		addend = addend * 3;
+		multiply_by_3(&addend);
 	    }
 
-	    frame->n = frame->n + addend;
+	    add_nine_bytes(&(frame->position_rep), &addend);
 	    
 	    // Mark that we were able to make a valid move.
 	    rtn = 0;
