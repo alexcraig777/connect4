@@ -3,7 +3,7 @@
 
 #include "graphics.h"
 
-#include "../small_frame.h"
+#include "../frame.h"
 #include "tft.h"
 
 int color0 = 0x0000;
@@ -19,6 +19,9 @@ void display_frame(struct FramePosition* position) {
     int i;
     
     int colors[3] = {color0, color1, color2};
+
+    // Tell the frame to cache its cells.
+    cache_cells(position);
     
     for (ridx = 0; ridx < 6; ridx++) {
         for (cidx = 0; cidx < 7; cidx++) {
@@ -48,6 +51,8 @@ void display_frame(struct FramePosition* position) {
             write8_a0(0x00);                    // NOP
         }
     }
+    // Tell the frame to free its cell cache.
+    free_cell_cache(position);
 }
 
 void display_winner(int winner) {

@@ -78,7 +78,8 @@ int main() {
     	root = new_game_node(NULL, frame);
 
     	// Repeatedly search the tree descending from root.
-    	for (search_counter = 0; search_counter < MAX_EXPANSIONS; search_counter++) {
+    	for (search_counter = 0; search_counter < MAX_EXPANSIONS;
+	     search_counter++) {
     	    leaf = find_most_promising_leaf_descendant(root);
 
     	    winner = check_winner(leaf->position);
