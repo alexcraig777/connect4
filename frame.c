@@ -102,3 +102,13 @@ int move_in_col(struct FramePosition* frame, int col) {
     }
     return ret;
 }
+
+void cache_cells(struct FramePosition* frame) {
+    // We just need this to be defined to keep the frame
+    // exterior interface consistend.
+}
+
+void free_cell_cache(struct FramePosition* frame) {
+    // We just need this to be defined to keep the frame
+    // exterior interface consistend.
+}

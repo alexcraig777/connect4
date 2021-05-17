@@ -1,4 +1,4 @@
-#include "small_frame.h"
+#include "frame.h"
 
 #include "nine_byte.h"
 
@@ -15,6 +15,7 @@
 struct FramePosition {
     char to_move;
     struct NineByte position_rep;
+    char* cell_cache;
 };
 
 struct FramePosition* new_frame() {
@@ -25,6 +26,7 @@ struct FramePosition* new_frame() {
     
     frame->to_move = 1;
     fill_nine_byte(&(frame->position_rep), 0);
+    frame->cell_cache = NULL;
     
     return frame;
 }
@@ -37,6 +39,7 @@ struct FramePosition* deep_copy_frame(struct FramePosition* template) {
     
     frame->to_move = template->to_move;
     copy_nine_byte(&(frame->position_rep), &(template->position_rep));
+    frame->cell_cache = NULL;
     
     return frame;
 }
@@ -44,7 +47,12 @@ struct FramePosition* deep_copy_frame(struct FramePosition* template) {
 void free_frame(struct FramePosition* frame) {
     // Release all memory currently used in this frame.
     // For this implementation this just means freeing the
-    // frame structure itself.    
+    // frame structure itself.
+    // UPDATE: We really should also verify that the cell
+    // cache is freed (if it's not already NULL).
+    if (frame->cell_cache != NULL) {
+	free(frame->cell_cache);
+    }
     free(frame);
 }
 
@@ -53,11 +61,20 @@ int get_to_move(struct FramePosition* frame) {
 }
 
 int get_at_col_row(struct FramePosition* frame, int col, int row) {
+    // Check if the cells are cached. If they are, use the cache;
+    // otherwise, refer to the representation.
     int idx;
-    
-    idx = 7*col + row;
+    int rtn;
 
-    return get_trinary_digit(frame->position_rep, idx);
+    if (frame->cell_cache != NULL) {
+	// The cells are cached!
+	rtn = frame->cell_cache[6*col + row];
+    } else {
+	idx = 6*col + row;
+	rtn = get_trinary_digit(frame->position_rep, idx);
+    }
+
+    return rtn;
 }
 
 int move_in_col(struct FramePosition* frame, int col) {
@@ -77,7 +94,7 @@ int move_in_col(struct FramePosition* frame, int col) {
     for (ridx = 0; ridx < 7; ridx++) {
 	if (get_at_col_row(frame, col, ridx) == 0) {
 	    // This space is empty; move here and return.
-	    idx = 7*col + ridx;
+	    idx = 6*col + ridx;
 
 	    fill_nine_byte(&addend, frame->to_move);
 	    for (i = 0; i < idx; i++) {
@@ -94,4 +111,17 @@ int move_in_col(struct FramePosition* frame, int col) {
 	}
     }
     return rtn;
+}
+
+void cache_cells(struct FramePosition* frame) {
+    // Malloc and fill a cache containing the values in each cell.
+    frame->cell_cache = malloc(42 * sizeof(char));
+
+    get_trinary_digits(frame->position_rep, frame->cell_cache);
+}
+
+void free_cell_cache(struct FramePosition* frame) {
+    // Free the cell cache and set it to NULL.
+    free(frame->cell_cache);
+    frame->cell_cache = NULL;
 }
