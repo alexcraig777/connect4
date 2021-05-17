@@ -19,4 +19,6 @@ void add_nine_bytes(struct NineByte* dest, struct NineByte* addend);
 
 int get_trinary_digit(struct NineByte nine_byte, int idx);
 
+void get_trinary_digits(struct NineByte nine_byte, char* digits);
+
 #endif

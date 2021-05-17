@@ -162,6 +162,19 @@ int get_trinary_digit(struct NineByte nine_byte, int idx) {
     return remainder_mod_3(nine_byte);
 }
 
+void get_trinary_digits(struct NineByte nine_byte, char* digits) {
+    // Compute the trinary digits 1-by-1 and write them into
+    // the length-42 char array digits.
+    int digit_idx;
+    for (digit_idx = 0; digit_idx < 42; digit_idx++) {
+	// Compute the lowest digit and write it in.
+	digits[digit_idx] = (char) remainder_mod_3(nine_byte);
+
+	// Perform integer division by 3.
+	integer_divide_by_3(&nine_byte);
+    }
+}
+
 /*
 void print_nine_byte(struct NineByte nine_byte) {
     printf("%02x %08x %08x\n", ((uint32_t) nine_byte.high) & 0xff,

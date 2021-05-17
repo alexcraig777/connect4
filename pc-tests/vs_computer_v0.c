@@ -1,4 +1,4 @@
-#include "../small_frame.h"
+#include "../frame.h"
 #include "../frame_ops.h"
 #include "../game_node.h"
 

@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -I. -g
 
 backendmake: ../nine_byte.c ../nine_byte.h \
-	../small_frame.c ../small_frame.h \
+	../small_frame.c ../frame.h \
 	../frame_ops.c ../frame_ops.h \
 	../game_node.c ../game_node.h \
 	vs_computer_v0.c
