@@ -1,6 +1,6 @@
 #include "game_node.h"
 
-#include "small_frame.h"
+#include "frame.h"
 #include "frame_ops.h"
 
 #include <stdlib.h>
@@ -60,25 +60,27 @@ void expand_node(struct GameNode* node) {
     struct FramePosition* child_position;
     
     // Add each child.
+    // Valgrind helped me find a memory leak error in the first
+    // implementation of this where I created each child before
+    // checking if that column was full. Then, if the column was
+    // full, I orphaned the child.
     for (cidx = 0; cidx < 7; cidx++) {
-	// Create child position.
-	child_position = deep_copy_frame(node->position);
-	
-	if (move_in_col(child_position, cidx) != -1) {
-	    // Create a new child node.
-	    child_node = new_game_node(node, child_position);
+	// Only add this child if the top cell is 0.
+	if (get_at_col_row(node->position, cidx, 5) == 0) {
+	    // Create child position.
+	    child_position = deep_copy_frame(node->position);
 
-	    // Add the child node to the current node's children array.
+	    // Make the move. This should be valid because the top
+	    // cell is empty!
+	    move_in_col(child_position, cidx);
+
+	    // Create the child node to hold the child position, and
+	    // add it to the current node's array of children.
+	    child_node = new_game_node(node, child_position);
 	    node->children[cidx] = child_node;
-	} else {
-	    // We need to free the child_position frame that we
-	    // just created!
-	    // This was causing some memory leaks!
-	    // Thank you Valgrind for helping me find it!
-	    free_frame(child_position);
 	}
     }
-
+	
     // Update the expected payoff up the tree, recursively.
     update_expected_payoff(node);
 }

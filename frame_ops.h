@@ -3,7 +3,7 @@
 
 struct FramePosition;
 
-void display_frame(struct FramePosition* position);
+int move_in_col(struct FramePosition* frame, int col);
 
 int check_full(struct FramePosition* position);
 

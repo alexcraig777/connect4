@@ -1,5 +1,5 @@
 #include "frame_ops.h"
-#include "small_frame.h"
+#include "frame.h"
 
 #include <limits.h>
 #include <stdlib.h>
@@ -11,12 +11,49 @@
 // Separating them out will allow us more easily to make the
 // structure more space-efficient.
 
+int move_in_col(struct FramePosition* frame, int col) {
+    // Update the supplied frame object with a new piece in
+    // column col, if possible.
+    // Return value of 0 indicates succes;
+    // return value of -1 indicates move is illegal.
+    int rtn;
+    rtn = -1;
+    
+    // First, check if the top spot in the desired column
+    // is full.
+    if (get_at_col_row(frame, col, 5) != 0) {
+	// This column is full!
+	rtn = -1;
+    } else {
+	// This column is not full. Find the first empty place and
+	// move there.
+        int row_to_check;
+        for (row_to_check = 0; row_to_check < 6; row_to_check++) {
+            if (get_at_col_row(frame, col, row_to_check) == 0) {
+		// This space is empty!
+		// Put the correct piece here.
+                insert_piece_at_col_row(frame, col, row_to_check,
+					get_to_move(frame));
+		// Change whose turn it is.
+		toggle_to_move(frame);
+		// Record that this was a valid move.
+		rtn = 0;
+                break;
+            }
+        }
+    }
+    return rtn;
+}
+
 int check_full(struct FramePosition* position) {
     // Check if the board is completely full. This does not check
     // if anyone has won the game.
     int cidx;
     int rtn;
 
+    // Tell the frame to cache its cells.
+    cache_cells(position);
+    
     rtn = 1;
     for (cidx = 0; cidx < 7; cidx++) {
         if (get_at_col_row(position, cidx, 5) == 0) {
@@ -28,6 +65,10 @@ int check_full(struct FramePosition* position) {
     }
     // If we get here without ever finding an empty cell, then the
     // board is full and we should return 1.
+
+    // Tell the frame to free its cell cache.
+    free_cell_cache(position);
+    
     return rtn;
 }
 
@@ -38,6 +79,9 @@ int check_winner(struct FramePosition* position) {
     int base_ridx, base_cidx;
     char winner;
     winner = 0;
+
+    // Tell the frame to cache its cells.
+    cache_cells(position);
 
     // Check all columns for 4-in-a-row.
     for (cidx = 0; cidx < 7; cidx++) {
@@ -126,6 +170,9 @@ int check_winner(struct FramePosition* position) {
             }
         }
     }
+
+    // Tell the frame to free its cell cache.
+    free_cell_cache(position);
     
     return winner;
 }
@@ -134,12 +181,18 @@ int score_frame(struct FramePosition* position, int player) {
     int cidx, ridx;
     int base_ridx, base_cidx;
     int score;
-    score = 0;
 
-    char winner = 0;
-    char contiguous_pieces = 0;
+    char winner;
+    char contiguous_pieces;
+
+    score = 0;
+    winner = 0;
+    contiguous_pieces = 0;
     
     int values[5] = {0, 1, 3, 5, 0};
+
+    // Tell the frame to cache its cells.
+    cache_cells(position);
     
     // Check all columns for points for both players.
     for (cidx = 0; cidx < 7; cidx++) {
@@ -330,5 +383,9 @@ int score_frame(struct FramePosition* position, int player) {
 	    score = -WINNING_SCORE + num_moves;
 	}
     }
+
+    // Tell the frame to free its cell cache.
+    free_cell_cache(position);
+
     return score;
 }
