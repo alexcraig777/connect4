@@ -182,11 +182,28 @@ void print_nine_byte(struct NineByte nine_byte) {
 }
 
 int main() {
-    struct NineByte nine_byte;
-    nine_byte.low = 0x60000000;
-    nine_byte.middle = 0xa0000000;
-    nine_byte.high = 0x00;
+    struct NineByte nine_byte, addend;
 
+    nine_byte.low = 0x6d46ef43;
+    nine_byte.middle = 0xb3c22429;
+    nine_byte.high = 0x03;
+
+    print_nine_byte(nine_byte);
+
+    addend.low = 1;
+    addend.middle = 0;
+    addend.high = 0;
+    
+    int i;
+    for (i = 0; i < 30; i++) {
+	multiply_by_3(&addend);
+    }
+
+    add_nine_bytes(&nine_byte, &addend);
+
+    print_nine_byte(nine_byte);
+    
+    /*
     print_nine_byte(nine_byte);
     printf("%d\n", remainder_mod_3(nine_byte));
 
@@ -219,7 +236,8 @@ int main() {
 
     add_nine_bytes(&nine_byte, &nine_byte);
     print_nine_byte(nine_byte);
-
+    
+    
     return 0;
 }
 */

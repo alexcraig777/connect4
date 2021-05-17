@@ -68,8 +68,13 @@ int main() {
 	// Create a copy of the current frame.
 	frame = deep_copy_frame(root->position);
 
+	printf("Planning to move in column %d.\n", root->most_promising_child);
+
 	// Make the computed best move.
-	move_in_col(frame, root->most_promising_child);
+	if (move_in_col(frame, root->most_promising_child) == -1) {
+	    printf("Dang. We tried to make an invalid move in column %d.\n",
+		   root->most_promising_child);
+	}
 
 	// Free the previous root game node (and with it the entire tree).
 	free_game_node(root);

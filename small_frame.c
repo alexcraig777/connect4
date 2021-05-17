@@ -77,41 +77,28 @@ int get_at_col_row(struct FramePosition* frame, int col, int row) {
     return rtn;
 }
 
-int move_in_col(struct FramePosition* frame, int col) {
-    // Update the supplied frame object with a new piece in
-    // column col, if possible.
-    // Return value of 0 indicates succes;
-    // return value of -1 indicates move is illegal.
-    int rtn;
-    int ridx;
-    int idx, i;
-
+void insert_piece_at_col_row(struct FramePosition* frame, int col, int row, char piece) {
+    // Place a piece into the frame at the correct place.
+    int i;
+    
     struct NineByte addend;
-    
-    rtn = -1;
-    
-    // Find the lowest cell in the column that is not occuppied.
-    for (ridx = 0; ridx < 7; ridx++) {
-	if (get_at_col_row(frame, col, ridx) == 0) {
-	    // This space is empty; move here and return.
-	    idx = 6*col + ridx;
+    fill_nine_byte(&addend, (int) piece);
 
-	    fill_nine_byte(&addend, frame->to_move);
-	    for (i = 0; i < idx; i++) {
-		multiply_by_3(&addend);
-	    }
-
-	    add_nine_bytes(&(frame->position_rep), &addend);
-	    
-	    // Mark that we were able to make a valid move.
-	    rtn = 0;
-	    // Switch the person to move.
-	    frame->to_move = 3 - frame->to_move;
-	    break;
-	}
+    // Multiply by 3 to shift it over to the correct cell.
+    for (i = 0; i < 6*col + row; i++) {
+	multiply_by_3(&addend);
     }
-    return rtn;
+
+    // Add the addend in to insert the piece.
+    add_nine_bytes(&(frame->position_rep), &addend);
 }
+
+void toggle_to_move(struct FramePosition* frame) {
+    // Change whose move it is.
+    frame->to_move = 3 - frame->to_move;
+}
+
+// Functions to manage cell caching.
 
 void cache_cells(struct FramePosition* frame) {
     // Malloc and fill a cache containing the values in each cell.

@@ -80,28 +80,17 @@ int get_at_col_row(struct FramePosition* frame, int col, int row) {
     return (int) frame->cells[col][row];
 }
 
-int move_in_col(struct FramePosition* frame, int col) {
-    // Update the supplied frame object with a new piece in
-    // column col, if possible.
-    // Return value of 0 indicates succes;
-    // return value of -1 indicates move is illegal.
-    int ret;
-
-    if (frame->cells[col][5] == 0) {
-        int row_to_check;
-        for (row_to_check = 0; row_to_check < 6; row_to_check++) {
-            if (frame->cells[col][row_to_check] == 0) {
-                frame->cells[col][row_to_check] = frame->to_move;
-                break;
-            }
-        }
-        frame->to_move = 3 - frame->to_move;
-        ret = 0;
-    } else {
-        ret = -1;
-    }
-    return ret;
+void insert_piece_at_col_row(struct FramePosition* frame, int col, int row, char piece) {
+    // Place a piece into the frame at the correct place.
+    frame->cells[col][row] = piece;
 }
+
+void toggle_to_move(struct FramePosition* frame) {
+    // Change whose move it is.
+    frame->to_move = 3 - frame->to_move;
+}
+
+// Functions to manage cell caching.
 
 void cache_cells(struct FramePosition* frame) {
     // We just need this to be defined to keep the frame
