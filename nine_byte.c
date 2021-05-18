@@ -203,7 +203,6 @@ int main() {
 
     print_nine_byte(nine_byte);
     
-    /*
     print_nine_byte(nine_byte);
     printf("%d\n", remainder_mod_3(nine_byte));
 
