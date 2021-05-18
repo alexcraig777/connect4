@@ -2,7 +2,7 @@ Feasible features to add before the deadline:
 (1) Status LED:
     - Default is breathing normally.
     - Flashes rapidly when user makes illegal move.
-    - Breathes faster when the game is over.
+    - Blinks when the game is over.
 
 (2) Reset features:
     - On reset, choose 1 of 3 modes:
