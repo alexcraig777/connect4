@@ -1,0 +1,15 @@
+Feasible features to add before the deadline:
+(1) Status LED:
+    - Default is breathing normally.
+    - Flashes rapidly when user makes illegal move.
+    - Breathes faster when the game is over.
+
+(2) Reset features:
+    - On reset, choose 1 of 3 modes:
+      (a) Human-vs-PSoC, human moves first.
+      (b) Human-vs-PSoC, PSoC moves first.
+      (c) Human-vs-Human, human moves first.
+
+(3) Graphics bonuses:
+    - Added pieces fall down from the top.
+    - Winning pieces flash.
