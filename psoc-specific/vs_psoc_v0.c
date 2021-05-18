@@ -80,7 +80,7 @@ int main() {
     	// Repeatedly search the tree descending from root.
     	for (search_counter = 0; search_counter < MAX_EXPANSIONS;
 	     search_counter++) {
-    	    leaf = find_most_promising_leaf_descendant(root);
+    	    leaf = find_preferred_search_leaf(root);
 
     	    winner = check_winner(leaf->position);
     	    if (winner != 0) {
@@ -95,7 +95,7 @@ int main() {
     	frame = deep_copy_frame(root->position);
 
     	// Make the computed best move.
-    	move_in_col(frame, root->most_promising_child);
+    	move_in_col(frame, get_best_move(root));
 
     	// Free the previous root game node (and with it the entire tree).
     	free_game_node(root);
