@@ -1,6 +1,7 @@
 #include <project.h>
 #include "tft.h"
 #include "graphics.h"
+#include "led_control.h"
 
 #include "../frame.h"
 #include "../frame_ops.h"
@@ -8,7 +9,7 @@
 
 #include <stdlib.h>
 
-#define MAX_EXPANSIONS 83
+#define MAX_EXPANSIONS 70
 
 struct FramePosition* frame;
 char overall_winner;
@@ -44,12 +45,22 @@ void wait_for_user_move() {
             break;
         } else if (move_rtn_val == -1) {
             // The user input an invalid move.
+            signal_illegal_move();
+            move_rtn_val = 1;
         }
     }
 }
 
-
 int main() {
+    // Start the clock/PWM hardware.
+    Clock_1_Enable();
+    Clock_2_Enable();
+	PWM_1_Start();
+	PWM_2_Start();
+    
+    // Set the LED to breathing slowly.
+    led_breathe();
+    
     struct GameNode* root;
     struct GameNode* leaf;
 
@@ -106,17 +117,19 @@ int main() {
     	// Check if someone has won.
         overall_winner = check_winner(frame);
         if (overall_winner != 0) {
+            // Display the winner on the screen.
             display_winner(overall_winner);
+            
+            // Change the LED to blinking.
+            led_blink();
+            
+            // Delay until reset.
             while (overall_winner != 0) {
                 // Wait here for reset.
             }
             // Refresh the winner display.
             display_winner(0);
         }
-
-        display_winner(1);
-        display_winner(2);
-        display_winner(0);
         
     	// At this point we're ready to let the user make a move.
         wait_for_user_move();
