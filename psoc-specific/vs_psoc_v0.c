@@ -8,7 +8,7 @@
 
 #include <stdlib.h>
 
-#define MAX_EXPANSIONS 40
+#define MAX_EXPANSIONS 83
 
 struct FramePosition* frame;
 char overall_winner;
