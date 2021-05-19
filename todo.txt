@@ -1,5 +1,6 @@
 Feasible features to add before the deadline:
-(1) Status LED:
+
+(1) Status LED: Done!
     - Default is breathing normally.
     - Flashes rapidly when user makes illegal move.
     - Blinks when the game is over.
@@ -11,5 +12,5 @@ Feasible features to add before the deadline:
       (c) Human-vs-Human, human moves first.
 
 (3) Graphics bonuses:
-    - Added pieces fall down from the top.
+    - Added pieces fall down from the top. Done!
     - Winning pieces flash.
