@@ -13,4 +13,4 @@ Feasible features to add before the deadline:
 
 (3) Graphics bonuses:
     - Added pieces fall down from the top. Done!
-    - Winning pieces flash.
+    - Winning pieces flash. Done!
