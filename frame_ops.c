@@ -389,3 +389,163 @@ int score_frame(struct FramePosition* position, int player) {
 
     return score;
 }
+
+void find_winning_indices(struct FramePosition* position,
+			  int row_indices[3], int col_indices[3]) {
+    // We assume that the current position has a winner.
+    // This function finds the indices of the winning pieces.
+    // This is only useful so that we can make those pieces blink.
+    int cidx, ridx;
+    int base_ridx, base_cidx;
+    int delta;
+    char winner;
+    winner = 0;
+
+    // Tell the frame to cache its cells.
+    cache_cells(position);
+
+    // Check all columns for 4-in-a-row.
+    for (cidx = 0; cidx < 7; cidx++) {
+        for (base_ridx = 0; base_ridx < 3; base_ridx++) {
+            if ((get_at_col_row(position, cidx, base_ridx) == 1) &&
+		(get_at_col_row(position, cidx, base_ridx + 1) == 1) &&
+		(get_at_col_row(position, cidx, base_ridx + 2) == 1) &&
+		(get_at_col_row(position, cidx, base_ridx + 3) == 1)) {
+                winner = 1;
+
+		// Fill in the winning indices.
+		for (delta = 0; delta < 4; delta++) {
+		    col_indices[delta] = cidx;
+		    row_indices[delta] = base_ridx + delta;
+		}
+                break;
+            } else if ((get_at_col_row(position, cidx, base_ridx) == 2) &&
+		       (get_at_col_row(position, cidx, base_ridx + 1) == 2) &&
+		       (get_at_col_row(position, cidx, base_ridx + 2) == 2) &&
+		       (get_at_col_row(position, cidx, base_ridx + 3) == 2)) {
+                winner = 2;
+
+		// Fill in the winning indices.
+		for (delta = 0; delta < 4; delta++) {
+		    col_indices[delta] = cidx;
+		    row_indices[delta] = base_ridx + delta;
+		}
+		break;
+            }
+        }
+        if (winner != 0) {
+            break;
+        }
+    }
+    
+    // Check all rows for 4-in-a-row.
+    if (winner == 0) {
+        for (ridx = 0; ridx < 6; ridx++) {
+            for (base_cidx = 0; base_cidx < 4; base_cidx++) {
+                if ((get_at_col_row(position, base_cidx, ridx) == 1) &&
+		    (get_at_col_row(position, base_cidx + 1, ridx) == 1) &&
+		    (get_at_col_row(position, base_cidx + 2, ridx) == 1) &&
+		    (get_at_col_row(position, base_cidx + 3, ridx) == 1)) {
+
+                    winner = 1;
+
+		    // Fill in the winning indices.
+		    for (delta = 0; delta < 4; delta++) {
+			col_indices[delta] = base_cidx + delta;
+			row_indices[delta] = ridx;
+		    }
+		    break;
+		    
+                } else if ((get_at_col_row(position, base_cidx, ridx) == 2) &&
+			   (get_at_col_row(position, base_cidx + 1, ridx) == 2) &&
+			   (get_at_col_row(position, base_cidx + 2, ridx) == 2) &&
+			   (get_at_col_row(position, base_cidx + 3, ridx) == 2)) {
+                    winner = 2;
+
+		    // Fill in the winning indices.
+		    for (delta = 0; delta < 4; delta++) {
+			col_indices[delta] = base_cidx + delta;
+			row_indices[delta] = ridx;
+		    }
+		    break;
+                }
+            }
+            if (winner != 0) {
+                break;
+            }
+        }
+    }
+    
+    // Check all SW-NE diagonals for 4-in-a-row.
+    if (winner == 0) {
+        for (base_cidx = 0; base_cidx < 4; base_cidx++) {
+            for (base_ridx = 0; base_ridx < 3; base_ridx++) {
+                if ((get_at_col_row(position, base_cidx, base_ridx) == 1) &&
+		    (get_at_col_row(position, base_cidx + 1, base_ridx + 1) == 1) &&
+		    (get_at_col_row(position, base_cidx + 2, base_ridx + 2) == 1) &&
+		    (get_at_col_row(position, base_cidx + 3, base_ridx + 3) == 1)) {
+		    winner = 1;
+
+		    // Fill in the winning indices.
+		    for (delta = 0; delta < 4; delta++) {
+			col_indices[delta] = base_cidx + delta;
+			row_indices[delta] = base_ridx + delta;
+		    }
+                    break;
+
+                    break;
+                } else if ((get_at_col_row(position, base_cidx, base_ridx) == 2) &&
+			   (get_at_col_row(position, base_cidx + 1, base_ridx + 1) == 2) &&
+			   (get_at_col_row(position, base_cidx + 2, base_ridx + 2) == 2) &&
+			   (get_at_col_row(position, base_cidx + 3, base_ridx + 3) == 2)) {
+                    winner = 2;
+
+		    // Fill in the winning indices.
+		    for (delta = 0; delta < 4; delta++) {
+			col_indices[delta] = base_cidx + delta;
+			row_indices[delta] = base_ridx + delta;
+		    }
+                    break;
+                }
+            }
+        }
+    }
+
+    // Check all NW-SE diagonals for 4-in-a-row.
+    if (winner == 0) {
+        for (base_cidx = 0; base_cidx < 4; base_cidx++) {
+            for (base_ridx = 3; base_ridx < 6; base_ridx++) {
+                if ((get_at_col_row(position, base_cidx, base_ridx) == 1) &&
+		    (get_at_col_row(position, base_cidx + 1, base_ridx - 1) == 1) &&
+		    (get_at_col_row(position, base_cidx + 2, base_ridx - 2) == 1) &&
+		    (get_at_col_row(position, base_cidx + 3, base_ridx - 3) == 1)) {
+                    winner = 1;
+
+		    // Fill in the winning indices.
+		    for (delta = 0; delta < 4; delta++) {
+			col_indices[delta] = base_cidx + delta;
+			row_indices[delta] = base_ridx - delta;
+		    }
+                    break;
+                } else if ((get_at_col_row(position, base_cidx, base_ridx) == 2) &&
+			   (get_at_col_row(position, base_cidx + 1, base_ridx - 1) == 2) &&
+			   (get_at_col_row(position, base_cidx + 2, base_ridx - 2) == 2) &&
+			   (get_at_col_row(position, base_cidx + 3, base_ridx - 3) == 2)) {
+                    winner = 2;
+
+		    // Fill in the winning indices.
+		    for (delta = 0; delta < 4; delta++) {
+			col_indices[delta] = base_cidx + delta;
+			row_indices[delta] = base_ridx - delta;
+		    }
+                    break;
+
+                    break;
+                }
+            }
+        }
+    }
+
+    // Tell the frame to free its cell cache.
+    free_cell_cache(position);
+}
