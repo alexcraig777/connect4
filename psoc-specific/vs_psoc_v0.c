@@ -58,6 +58,8 @@ int execute_user_move() {
 int main() {
     int mov_col, mov_row;
     mov_row = 0;
+    
+    int winning_row_indices[4], winning_col_indices[4];
 
     // Start the clock/PWM hardware.
     Clock_1_Enable();
@@ -135,19 +137,33 @@ int main() {
     	// Check if someone has won.
         overall_winner = check_winner(frame);
         if (overall_winner != 0) {
-            // Display the winner on the screen.
+            // Display the winner and change the LED to blinking.
             display_winner(overall_winner);
-            
-            // Change the LED to blinking.
             led_blink();
-            
-            // Delay until reset.
+
+            // Figure out where they won so that we can make the winning
+            // pieces blink.
+            find_winning_indices(frame, winning_row_indices, winning_col_indices);
             while (overall_winner != 0) {
-                // Wait here for reset.
+                // Wait here for reset, blinking the pieces while we wait.
+                int i;
+                CyDelay(500);
+                for (i = 0; i < 4; i++) {
+                    // Fill in the cells with red.
+                    draw_cell(winning_row_indices[i],
+                              winning_col_indices[i],
+                              3);
+                }
+                CyDelay(500);
+                for (i = 0; i < 4; i++) {
+                    // Fill in the cells with the original colors.
+                    draw_cell(winning_row_indices[i],
+                              winning_col_indices[i],
+                              overall_winner);
+                }
             }
-            // Refresh the winner display.
-            display_winner(0);
         }
+        
         
     	// At this point we're ready to let the user make a move.
         mov_col = execute_user_move();
@@ -167,9 +183,30 @@ int main() {
     	// Check if someone has won.
         overall_winner = check_winner(frame);
         if (overall_winner != 0) {
+            // Display the winner and change the LED to blinking.
             display_winner(overall_winner);
+            led_blink();
+            
+            // Figure out where they won so that we can make the winning
+            // pieces blink.
+            find_winning_indices(frame, winning_row_indices, winning_col_indices);
             while (overall_winner != 0) {
-                // Wait here for reset.
+                // Wait here for reset, blinking the pieces while we wait.
+                int i;
+                CyDelay(500);
+                for (i = 0; i < 4; i++) {
+                    // Fill in the cells with red.
+                    draw_cell(winning_row_indices[i],
+                              winning_col_indices[i],
+                              3);
+                }
+                CyDelay(500);
+                for (i = 0; i < 4; i++) {
+                    // Fill in the cells with the original colors.
+                    draw_cell(winning_row_indices[i],
+                              winning_col_indices[i],
+                              overall_winner);
+                }
             }
             // Refresh the winner display.
             display_winner(0);

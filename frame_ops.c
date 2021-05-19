@@ -391,7 +391,7 @@ int score_frame(struct FramePosition* position, int player) {
 }
 
 void find_winning_indices(struct FramePosition* position,
-			  int row_indices[3], int col_indices[3]) {
+			  int row_indices[4], int col_indices[4]) {
     // We assume that the current position has a winner.
     // This function finds the indices of the winning pieces.
     // This is only useful so that we can make those pieces blink.
