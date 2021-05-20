@@ -236,6 +236,9 @@ int get_game_mode() {
     //   rtn = 2 => human vs. human
     //   rtn = 3 => psoc vs. psoc
     
+    // Turn the LED constant on to indicate we're on this state.
+    led_on();
+    
     int rtn;
     rtn = 0;
     
@@ -263,6 +266,10 @@ int get_game_mode() {
             break;
         }
     }
+    
+    // Make the LED breate to indicate the game is beginning.
+    led_breathe();
+    
     return rtn;
 }
 
@@ -273,8 +280,8 @@ int main() {
 	PWM_1_Start();
 	PWM_2_Start();
     
-    // Set the LED to breathing.
-    led_breathe();
+    // Start the LED on.
+    led_on();
     
     // Enable global interrupts.
     CyGlobalIntEnable;
