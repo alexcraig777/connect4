@@ -28,17 +28,17 @@ void signal_illegal_move() {
 void led_breathe() {
     // Set the lut to pass through the signal from
     // the PWMs that are breathing.
-    Control_Reg_1_Write(0b000);
+    Control_Reg_1_Write(0b00);
 }
 
 void led_blink() {
     // Set the lut to pass through the signal from
     // the 1 Hz clock.
-    Control_Reg_1_Write(0b001);
+    Control_Reg_1_Write(0b01);
 }
 
 void led_on() {
-    Control_Reg_1_Write(0b110);
+    Control_Reg_1_Write(0b11);
 }
 
 void led_off() {
