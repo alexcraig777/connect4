@@ -189,7 +189,7 @@ int score_frame(struct FramePosition* position, int player) {
     winner = 0;
     contiguous_pieces = 0;
     
-    int values[5] = {0, 1, 3, 5, 0};
+    int values[5] = {0, 1, 3, 10, 0};
 
     // Tell the frame to cache its cells.
     cache_cells(position);
