@@ -161,7 +161,6 @@ int evaluate_game_state() {
             }
             // Check if the user has asked us to reset.
             if (User_reset_Read()) {
-                rst_on_rtn = 1;
                 break;
             }
             CyDelay(500);
@@ -174,16 +173,20 @@ int evaluate_game_state() {
             
             // Check if the user has asked us to reset.
             if (User_reset_Read()) {
-                rst_on_rtn = 1;
                 break;
             }
         }
     } else if (check_full(frame) != 0) {
         // The game is tied! Who'd have thought!
-        // What the heck do we do now?
+        // I guess just set the light to blinking and wait
+        // for the user to reset.
+        led_blink();
         rst_on_rtn = 1;
-    } else {
-        rst_on_rtn = 0;
+        while (1) {
+            if (User_reset_Read()) {
+                break;
+            }
+        }
     }
     
     return rst_on_rtn;
