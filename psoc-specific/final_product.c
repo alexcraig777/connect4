@@ -85,7 +85,7 @@ int execute_user_move() {
     return mov_col;
 }
 
-void  make_psoc_move() {
+void make_psoc_move() {
     struct GameNode* root;
     struct GameNode* leaf;
     

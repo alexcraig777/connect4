@@ -5,7 +5,7 @@ Feasible features to add before the deadline:
     - Flashes rapidly when user makes illegal move.
     - Blinks when the game is over.
 
-(2) Reset features:
+(2) Reset features: Done!
     - On reset, choose 1 of 3 modes:
       (a) Human-vs-PSoC, human moves first.
       (b) Human-vs-PSoC, PSoC moves first.
