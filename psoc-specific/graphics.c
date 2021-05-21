@@ -7,7 +7,7 @@
 #include "tft.h"
 
 int color0 = 0x0000;
-int color1 = 0x00f0;
+int color1 = 0x0afa;
 int color2 = 0xffff;
 int color3 = 0xf000;
 
